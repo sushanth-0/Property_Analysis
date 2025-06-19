@@ -29,12 +29,12 @@ if api_key:
     client = OpenAI(api_key=api_key)
 
     @st.cache_resource
-    def build_index(df_full, api_key):
+    def build_index(api_key):
         temp_client = OpenAI(api_key=api_key)
         chunks = []
         embeddings = []
-        for _, row in df_full.iterrows():
-            text = " | ".join([f"{col}: {row[col]}" for col in df_full.columns])
+        for _, row in df.iterrows():
+            text = " | ".join([f"{col}: {row[col]}" for col in df.columns])
             chunks.append(text)
             emb = temp_client.embeddings.create(model="text-embedding-3-large", input=text).data[0].embedding
             embeddings.append(emb)
@@ -45,8 +45,8 @@ if api_key:
         index.add(vectors)
         return index, chunks
 
-    # Build index on the full dataset once (ALL rows)
-    index, chunks = build_index(df, api_key)
+    # Build index for the WHOLE df only once
+    index, chunks = build_index(api_key)
 
     if button and user_q:
         true_average = df["leaseup_time"].dropna().mean()
@@ -54,20 +54,20 @@ if api_key:
         q_emb = client.embeddings.create(model="text-embedding-3-large", input=user_q).data[0].embedding
         q_vec = np.array(q_emb, dtype=np.float32).reshape(1, -1)
         faiss.normalize_L2(q_vec)
-        distances, ids = index.search(q_vec, len(df))  # Retrieve ALL rows similarity sorted
+        distances, ids = index.search(q_vec, len(df))  # Always match to all rows
         retrieved = [chunks[i] for i in ids[0]]
 
         context = "\n\n".join(retrieved)
         prompt = (
             f"Rows:\n{context}\n\n"
-            f"Additionally, the actual average lease-up time for the entire dataset is {true_average:.2f} months."
-            f" Use this if needed.\n\nQuestion: {user_q}"
+            f"Note: The true lease-up time average for ALL {len(df)} rows is {true_average:.2f} months."
+            f" Use this number if needed.\n\nQuestion: {user_q}"
         )
 
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a lease-up analyst. Use all rows and the given true average."},
+                {"role": "system", "content": "You are a lease-up analyst. Use all rows and the true average."},
                 {"role": "user", "content": prompt}
             ]
         )
