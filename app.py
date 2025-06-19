@@ -1,80 +1,84 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
-import plotly.express as px
-from openai import OpenAI
+import openai
+import faiss
+import numpy as np
 
-@st.cache_data
-def load_data():
-    df1 = pd.read_csv("Market1_Final_Selected.csv")
-    df1["Market"] = "Market 1"
-    df2 = pd.read_csv("Market2_Final_Selected.csv")
-    df2["Market"] = "Market 2"
-    return pd.concat([df1, df2], ignore_index=True)
+@st.cache_resource
+def build_faiss_index(csv_file: str):
+    df = pd.read_csv(csv_file)
+    summary_chunk = f"SUMMARY: Total rows in the CSV = {df.shape[0]}."
+    text_chunks = []
+    for idx, row in df.iterrows():
+        row_text = " | ".join([f"{col}: {row[col]}" for col in df.columns])
+        full_text = f"Row {idx}: {row_text}"
+        text_chunks.append(full_text)
+    texts = [summary_chunk] + text_chunks
+    embeddings = []
+    for text in texts:
+        response = openai.Embedding.create(
+            model="text-embedding-ada-002",
+            input=text
+        )
+        embedding = response["data"][0]["embedding"]
+        embeddings.append(embedding)
+    embedding_matrix = np.array(embeddings, dtype=np.float32)
+    dimension = embedding_matrix.shape[1]
+    index = faiss.IndexFlatIP(dimension)
+    index.add(embedding_matrix)
+    return index, texts, df
 
-df = load_data()
+def get_relevant_chunks(query: str, index, texts, top_k=10):
+    response = openai.Embedding.create(
+        model="text-embedding-ada-002",
+        input=query
+    )
+    query_embedding = np.array(response["data"][0]["embedding"], dtype=np.float32).reshape(1, -1)
+    distances, indices = index.search(query_embedding, top_k)
+    relevant_texts = [texts[i] for i in indices[0]]
+    return relevant_texts
 
-st.title("Property Analysis")
+def answer_query(query: str, index, texts):
+    relevant_chunks = get_relevant_chunks(query, index, texts, top_k=10)
+    combined_context = "\n\n".join(relevant_chunks)
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant. Answer ONLY using the provided data context."},
+        {"role": "user", "content": f"Data:\n{combined_context}\n\nQuestion: {query}\n\nAnswer using only the data above."}
+    ]
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=messages,
+        temperature=0.0
+    )
+    return response["choices"][0]["message"]["content"]
 
-st.header("Ask your question below to get instant insights")
+st.set_page_config(layout="wide")
+st.title("Lease-Up RAG Insights")
 
-target_market = st.selectbox("Select Market", df["Market"].unique())
+# Embed the existing dashboard (replace with your Looker Studio URL if needed)
+dashboard_url = "https://lookerstudio.google.com/embed/reporting/b3fcc2c4-24c5-4869-b128-c71e658b3f16/page/7m1DF"
+iframe = f'''<iframe width="100%" height="100%" src="{dashboard_url}" frameborder="0" style="border:0; margin:0; padding:0; height: calc(100vh - 4rem);" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>'''
+components.html(iframe, height=800)
 
-market_df = df[df["Market"] == target_market]
-filtered_df = market_df.copy()
+with st.sidebar:
+    st.markdown("<h2 style='border-bottom: 1px solid #ccc; color: #3949ab;'>Ask Your Lease-Up Data</h2>", unsafe_allow_html=True)
+    openai_api_key = st.text_input("Enter your OpenAI API key:", type="password")
+    user_message = st.text_input("", placeholder="Ask a question from the lease-up data...")
+    send_button = st.button('Generate Answer')
 
-avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
-
-# st.write(f"**Total rows in {target_market}: {market_df.shape[0]}**")
-# st.write(f"**Average lease-up time for {target_market}: {avg_leaseup_time_market:.2f} months**")
-
-api_key = st.text_input("OpenAI API Key", type="password")
-user_question = st.text_area("Ask your question")
-
-if st.button("Get Answer"):
-    if api_key and user_question:
-        try:
-            client = OpenAI(api_key=api_key)
-            leaseup_values = market_df["leaseup_time"].dropna().tolist()
-            context = f"Market: {target_market}; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}; Lease-up times: {leaseup_values}"
-            response = client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {"role": "system", "content": "You are a helpful lease-up data assistant with full dataset context."},
-                    {"role": "user", "content": f"{context} | Question: {user_question}"}
-                ]
-            )
-            st.write(response.choices[0].message.content)
-        except Exception as e:
-            st.error(f"Error: {str(e)}")
-    else:
-        st.warning("Please enter your API key and a question.")
-
-line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
-fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
-st.plotly_chart(fig1, use_container_width=True)
-
-submarket_counts = filtered_df["Submarket"].value_counts().reset_index()
-submarket_counts.columns = ["Submarket", "Count"]
-fig2 = px.bar(submarket_counts, x="Submarket", y="Count", title="Properties by Submarket")
-st.plotly_chart(fig2, use_container_width=True)
-
-fig3 = px.histogram(filtered_df, x="leaseup_time", nbins=30, title="Lease-Up Time Distribution")
-st.plotly_chart(fig3, use_container_width=True)
-
-fig4 = px.scatter(filtered_df, x="effective_rent_delivery", y="effective_rent_leaseup", color="Submarket", title="Delivery Rent vs Lease-Up Rent")
-st.plotly_chart(fig4, use_container_width=True)
-
-fig5 = px.box(filtered_df, y="effective_rent_growth", title="Effective Rent Growth Boxplot")
-st.plotly_chart(fig5, use_container_width=True)
-
-fig6 = px.pie(filtered_df, names="negative_growth", title="Negative Growth Proportion")
-st.plotly_chart(fig6, use_container_width=True)
-
-fig7 = px.scatter(filtered_df, x="umap_cluster", y="effective_rent_growth", color="umap_cluster", title="Clusters vs Rent Growth")
-st.plotly_chart(fig7, use_container_width=True)
-
-fig8 = px.histogram(filtered_df, x="property_age", nbins=20, title="Property Age Distribution")
-st.plotly_chart(fig8, use_container_width=True)
-
-fig9 = px.pie(filtered_df, names="large_project_flag", title="Large Project Flag Distribution")
-st.plotly_chart(fig9, use_container_width=True)
+if openai_api_key:
+    openai.api_key = openai_api_key
+    index, texts, df = build_faiss_index("Market1_Final_Selected.csv")
+    if send_button and user_message:
+        query_lower = user_message.lower()
+        if "total rows" in query_lower or "how many rows" in query_lower:
+            answer = f"The CSV has {df.shape[0]} rows."
+        elif "distribution of" in query_lower:
+            answer = answer_query(user_message, index, texts)
+        else:
+            answer = answer_query(user_message, index, texts)
+        st.sidebar.subheader("Answer")
+        st.sidebar.write(answer)
+else:
+    st.sidebar.warning("Please enter your OpenAI API key to proceed.")
