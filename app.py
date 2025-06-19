@@ -15,13 +15,15 @@ df = load_data()
 
 st.title("GenAI Lease-Up Assistant & Dashboard")
 
-market_df = df[df["Market"] == "Market 1"]  # Default to Market 1
+target_market = st.selectbox("Select Market", df["Market"].unique())
+
+market_df = df[df["Market"] == target_market]
 filtered_df = market_df.copy()
 
 avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
 
-st.write(f"**Total rows in Market 1: {market_df.shape[0]}**")
-st.write(f"**Average lease-up time for Market 1: {avg_leaseup_time_market:.2f} months**")
+st.write(f"**Total rows in {target_market}: {market_df.shape[0]}**")
+st.write(f"**Average lease-up time for {target_market}: {avg_leaseup_time_market:.2f} months**")
 
 api_key = st.text_input("OpenAI API Key", type="password")
 user_question = st.text_area("Ask your question about lease-up data")
@@ -30,13 +32,12 @@ if st.button("Get Answer"):
     if api_key and user_question:
         try:
             client = OpenAI(api_key=api_key)
-            # Instead of just providing static average, pass the full leaseup_time data
             leaseup_values = market_df["leaseup_time"].dropna().tolist()
-            context = f"Market: Market 1; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}; Lease-up times: {leaseup_values}"
+            context = f"Market: {target_market}; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}; Lease-up times: {leaseup_values}"
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a helpful lease-up data assistant. You have access to the full lease-up time data."},
+                    {"role": "system", "content": "You are a helpful lease-up data assistant with full dataset context."},
                     {"role": "user", "content": f"{context} | Question: {user_question}"}
                 ]
             )
