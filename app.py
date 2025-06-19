@@ -29,12 +29,12 @@ if api_key:
     client = OpenAI(api_key=api_key)
 
     @st.cache_resource
-    def build_index(df, api_key):
+    def build_index(df_full, api_key):
         temp_client = OpenAI(api_key=api_key)
         chunks = []
         embeddings = []
-        for _, row in df.iterrows():
-            text = " | ".join([f"{col}: {row[col]}" for col in df.columns])
+        for _, row in df_full.iterrows():
+            text = " | ".join([f"{col}: {row[col]}" for col in df_full.columns])
             chunks.append(text)
             emb = temp_client.embeddings.create(model="text-embedding-3-large", input=text).data[0].embedding
             embeddings.append(emb)
@@ -45,10 +45,11 @@ if api_key:
         index.add(vectors)
         return index, chunks
 
-    index, chunks = build_index(market_df, api_key)
+    # Build index on the full dataset once (ALL 293 rows)
+    index, chunks = build_index(df, api_key)
 
     if button and user_q:
-        true_average = market_df["leaseup_time"].dropna().mean()
+        true_average = df[df["Market"] == market]["leaseup_time"].dropna().mean()
 
         q_emb = client.embeddings.create(model="text-embedding-3-large", input=user_q).data[0].embedding
         q_vec = np.array(q_emb, dtype=np.float32).reshape(1, -1)
@@ -59,14 +60,14 @@ if api_key:
         context = "\n\n".join(retrieved)
         prompt = (
             f"Rows:\n{context}\n\n"
-            f"Additionally, the actual average lease-up time for all rows is {true_average:.2f} months."
+            f"Additionally, the actual average lease-up time for the entire dataset is {true_average:.2f} months."
             f" Use this if needed.\n\nQuestion: {user_q}"
         )
 
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a lease-up analyst. Use only the retrieved rows and the given average."},
+                {"role": "system", "content": "You are a lease-up analyst. Use only the retrieved rows and the given true average."},
                 {"role": "user", "content": prompt}
             ]
         )
