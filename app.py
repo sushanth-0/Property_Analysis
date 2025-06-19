@@ -45,16 +45,16 @@ if api_key:
         index.add(vectors)
         return index, chunks
 
-    # Build index on the full dataset once (ALL 293 rows)
+    # Build index on the full dataset once (ALL rows)
     index, chunks = build_index(df, api_key)
 
     if button and user_q:
-        true_average = df[df["Market"] == market]["leaseup_time"].dropna().mean()
+        true_average = df["leaseup_time"].dropna().mean()
 
         q_emb = client.embeddings.create(model="text-embedding-3-large", input=user_q).data[0].embedding
         q_vec = np.array(q_emb, dtype=np.float32).reshape(1, -1)
         faiss.normalize_L2(q_vec)
-        distances, ids = index.search(q_vec, 10)
+        distances, ids = index.search(q_vec, len(df))  # Retrieve ALL rows similarity sorted
         retrieved = [chunks[i] for i in ids[0]]
 
         context = "\n\n".join(retrieved)
@@ -67,7 +67,7 @@ if api_key:
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a lease-up analyst. Use only the retrieved rows and the given true average."},
+                {"role": "system", "content": "You are a lease-up analyst. Use all rows and the given true average."},
                 {"role": "user", "content": prompt}
             ]
         )
