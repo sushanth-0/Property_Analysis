@@ -1,4 +1,6 @@
 streamlit
 pandas
-plotly
+numpy
+faiss-cpu
 openai
+plotly
