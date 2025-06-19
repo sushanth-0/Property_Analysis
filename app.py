@@ -1,47 +1,69 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import pandas as pd
+import plotly.express as px
 from openai import OpenAI
 
 st.set_page_config(layout="wide")
-st.title("Lease-Up 10-Feature RAG Insights Dashboard")
+st.title("Lease-Up 10-Feature Insights Dashboard with RAG Q&A")
 
-components.html(f'''<iframe width="100%" height="100%" src="https://lookerstudio.google.com/embed/reporting/b3fcc2c4-24c5-4869-b128-c71e658b3f16/page/7m1DF" frameborder="0" style="border:0;height:calc(100vh - 4rem)" allowfullscreen></iframe>''', height=800)
+api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+user_q = st.sidebar.text_area("Ask a question about your lease-up features:")
+button = st.sidebar.button("Generate Answer")
 
-with st.sidebar:
-    st.markdown("## Ask Your Lease-Up Data (10 features)")
-    api_key = st.text_input("OpenAI API Key", type="password")
-    user_q = st.text_area("Your Question", placeholder="Ask anything about delivery year, submarket, lease-up time, rent, growth, clusters, project flags, etc.")
-    button = st.button("Generate Answer")
+@st.cache_data
+def load_data():
+    df = pd.read_csv("Market1_Final_Selected.csv")
+    return df
 
 if api_key:
     client = OpenAI(api_key=api_key)
+    df = load_data()
 
-    @st.cache_data
-    def load_data(csv_file):
-        df = pd.read_csv(csv_file)
-        summary = f"SUMMARY: Total rows = {df.shape[0]}"
-        texts = [summary] + [
-            "Row {}: ".format(idx) + " | ".join([f"{col}: {row[col]}" for col in df.columns])
-            for idx, row in df.iterrows()
-        ]
-        return texts, df
-
-    def answer_query_rag(query, texts):
-        context = "\n\n".join(texts)
+    def answer_query(query):
+        sample_context = df.head(20).to_string()
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a smart lease-up assistant. Use ONLY the data provided for the 10 key features. Do not make up extra facts."},
-                {"role": "user", "content": f"Data:\n{context}\n\nQuestion: {query}"}
+                {"role": "system", "content": "You are a lease-up assistant with 10 feature context. Use only the given data."},
+                {"role": "user", "content": f"Data:\n{sample_context}\n\nQuestion: {query}"}
             ]
         )
         return response.choices[0].message.content
 
-    texts, df = load_data("Market1_Final_Selected.csv")
     if button and user_q:
-        reply = answer_query_rag(user_q, texts)
+        reply = answer_query(user_q)
         st.sidebar.subheader("Answer")
         st.sidebar.write(reply)
+
+    st.header("10 Features Overview")
+
+    # Display each feature with an appropriate plot
+    fig1 = px.histogram(df, x="delivery_year", title="Delivery Year Distribution")
+    st.plotly_chart(fig1, use_container_width=True)
+
+    fig2 = px.bar(df["Submarket"].value_counts().reset_index(), x="index", y="Submarket", title="Submarket Counts")
+    st.plotly_chart(fig2, use_container_width=True)
+
+    fig3 = px.histogram(df, x="leaseup_time", title="Lease-Up Time Distribution")
+    st.plotly_chart(fig3, use_container_width=True)
+
+    fig4 = px.scatter(df, x="effective_rent_delivery", y="effective_rent_leaseup", title="Delivery vs Lease-Up Rent")
+    st.plotly_chart(fig4, use_container_width=True)
+
+    fig5 = px.histogram(df, x="effective_rent_growth", title="Effective Rent Growth Distribution")
+    st.plotly_chart(fig5, use_container_width=True)
+
+    fig6 = px.pie(df, names="negative_growth", title="Negative Growth Proportion")
+    st.plotly_chart(fig6, use_container_width=True)
+
+    fig7 = px.scatter(df, x="umap_cluster", y="effective_rent_growth", color="umap_cluster", title="UMAP Cluster vs Rent Growth")
+    st.plotly_chart(fig7, use_container_width=True)
+
+    fig8 = px.histogram(df, x="property_age", title="Property Age Distribution")
+    st.plotly_chart(fig8, use_container_width=True)
+
+    fig9 = px.pie(df, names="large_project_flag", title="Large Project Flag Proportion")
+    st.plotly_chart(fig9, use_container_width=True)
+
 else:
     st.sidebar.warning("Please enter your OpenAI API key to use the assistant.")
