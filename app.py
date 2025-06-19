@@ -13,7 +13,9 @@ def load_data():
 
 df = load_data()
 
-st.title("GenAI Lease-Up Assistant & Dashboard")
+st.title("Property Analysis")
+
+st.header("Ask your question below to get instant insights")
 
 target_market = st.selectbox("Select Market", df["Market"].unique())
 
@@ -46,8 +48,6 @@ if st.button("Get Answer"):
             st.error(f"Error: {str(e)}")
     else:
         st.warning("Please enter your API key and a question.")
-
-st.header("Lease-Up Dashboard")
 
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
 fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
