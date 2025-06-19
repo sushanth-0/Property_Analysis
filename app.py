@@ -35,25 +35,34 @@ if st.button("Get Answer"):
 
 st.sidebar.title("Lease-Up Dashboard")
 market = st.sidebar.selectbox("Market", df["Market"].unique())
-submarkets = st.sidebar.multiselect("Submarkets", df[df["Market"] == market]["Submarket"].unique(), df[df["Market"] == market]["Submarket"].unique())
-years = st.sidebar.slider("Delivery Year", int(df["delivery_year"].min()), int(df["delivery_year"].max()), (int(df["delivery_year"].min()), int(df["delivery_year"].max())))
-filtered_df = df[(df["Market"] == market) & (df["Submarket"].isin(submarkets)) & (df["delivery_year"].between(*years))]
+filtered_df = df[df["Market"] == market]
+
+# Create dynamic filters for each feature
+selected_submarket = st.sidebar.selectbox("Filter by Submarket", ["All"] + sorted(filtered_df["Submarket"].unique().tolist()))
+selected_year = st.sidebar.selectbox("Filter by Delivery Year", ["All"] + sorted(filtered_df["delivery_year"].unique().tolist()))
+selected_cluster = st.sidebar.selectbox("Filter by UMAP Cluster", ["All"] + sorted(filtered_df["umap_cluster"].unique().tolist()))
+
+# Apply filters
+if selected_submarket != "All":
+    filtered_df = filtered_df[filtered_df["Submarket"] == selected_submarket]
+if selected_year != "All":
+    filtered_df = filtered_df[filtered_df["delivery_year"] == selected_year]
+if selected_cluster != "All":
+    filtered_df = filtered_df[filtered_df["umap_cluster"] == int(selected_cluster)]
 
 st.title("Property Lease-Up Dashboard")
 st.write(f"Market: {market}")
 
-# delivery_year: line chart
+# Visualizations
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="count")
 fig1 = px.line(line_df, x="delivery_year", y="count", title="Properties Delivered per Year")
 st.plotly_chart(fig1, use_container_width=True)
 
-# Submarket: fix to use proper columns
 submarket_counts = filtered_df["Submarket"].value_counts().reset_index()
 submarket_counts.columns = ["Submarket", "Count"]
 fig2 = px.bar(submarket_counts, x="Submarket", y="Count", title="Properties by Submarket")
 st.plotly_chart(fig2, use_container_width=True)
 
-# Remaining plots stay the same
 fig3 = px.histogram(filtered_df, x="leaseup_time", nbins=30, title="Lease-Up Time Distribution")
 st.plotly_chart(fig3, use_container_width=True)
 
