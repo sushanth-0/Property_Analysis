@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from openai import OpenAI
+from openai.error import RateLimitError
 
 @st.cache_data
 def load_data():
@@ -36,21 +37,31 @@ user_question = st.text_area("Your Question")
 
 if st.button("Get Answer"):
     if api_key and user_question:
-        client = OpenAI(api_key=api_key)
-        context = f"{filtered_df.head(10).to_dict()}"
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"{context} Question: {user_question}"}
-            ]
-        )
-        st.write(response.choices[0].message.content)
+        try:
+            client = OpenAI(api_key=api_key)
+            # Calculate the true average lease-up time for all entries with valid data
+            avg_leaseup_time = df["leaseup_time"].mean()
+            context = f"Filtered sample: {filtered_df.head(10).to_dict()} | Overall average lease-up time: {avg_leaseup_time:.2f} months"
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": f"{context} Question: {user_question}"}
+                ]
+            )
+            st.write(response.choices[0].message.content)
+        except RateLimitError:
+            st.error("OpenAI Rate Limit reached. Please wait or check your usage.")
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
     else:
         st.warning("Enter your API key and a question.")
 
 st.title("Property Lease-Up Dashboard")
 st.write(f"Market: {market}")
+
+avg_leaseup_time_all = df["leaseup_time"].mean()
+st.write(f"**Overall Average Lease-Up Time (All Data): {avg_leaseup_time_all:.2f} months**")
 
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
 fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
