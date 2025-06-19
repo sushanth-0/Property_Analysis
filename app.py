@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from openai import OpenAI
-from openai.error import RateLimitError
 
 @st.cache_data
 def load_data():
@@ -39,7 +38,6 @@ if st.button("Get Answer"):
     if api_key and user_question:
         try:
             client = OpenAI(api_key=api_key)
-            # Calculate the true average lease-up time for all entries with valid data
             avg_leaseup_time = df["leaseup_time"].mean()
             context = f"Filtered sample: {filtered_df.head(10).to_dict()} | Overall average lease-up time: {avg_leaseup_time:.2f} months"
             response = client.chat.completions.create(
@@ -50,8 +48,6 @@ if st.button("Get Answer"):
                 ]
             )
             st.write(response.choices[0].message.content)
-        except RateLimitError:
-            st.error("OpenAI Rate Limit reached. Please wait or check your usage.")
         except Exception as e:
             st.error(f"Error: {str(e)}")
     else:
