@@ -45,7 +45,6 @@ if api_key:
         index.add(vectors)
         return index, chunks
 
-    # Build index for the WHOLE df only once
     index, chunks = build_index(api_key)
 
     if button and user_q:
@@ -54,7 +53,7 @@ if api_key:
         q_emb = client.embeddings.create(model="text-embedding-3-large", input=user_q).data[0].embedding
         q_vec = np.array(q_emb, dtype=np.float32).reshape(1, -1)
         faiss.normalize_L2(q_vec)
-        distances, ids = index.search(q_vec, len(df))  # Always match to all rows
+        distances, ids = index.search(q_vec, len(df))
         retrieved = [chunks[i] for i in ids[0]]
 
         context = "\n\n".join(retrieved)
@@ -78,23 +77,25 @@ else:
 
 st.header(f"Market Dashboard: {market}")
 
+container_width = False  # Use fixed width to keep plots smaller
+
 line_df = market_df.groupby("delivery_year").size().reset_index(name="Count")
-st.plotly_chart(px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year"), use_container_width=True)
+st.plotly_chart(px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year"), use_container_width=container_width)
 
 submarket_counts = market_df["Submarket"].value_counts().reset_index()
 submarket_counts.columns = ["Submarket", "Count"]
-st.plotly_chart(px.bar(submarket_counts, x="Submarket", y="Count", title="Properties by Submarket"), use_container_width=True)
+st.plotly_chart(px.bar(submarket_counts, x="Submarket", y="Count", title="Properties by Submarket"), use_container_width=container_width)
 
-st.plotly_chart(px.histogram(market_df, x="leaseup_time", nbins=30, title="Lease-Up Time Distribution"), use_container_width=True)
+st.plotly_chart(px.histogram(market_df, x="leaseup_time", nbins=30, title="Lease-Up Time Distribution"), use_container_width=container_width)
 
-st.plotly_chart(px.scatter(market_df, x="effective_rent_delivery", y="effective_rent_leaseup", color="Submarket", title="Delivery Rent vs Lease-Up Rent"), use_container_width=True)
+st.plotly_chart(px.scatter(market_df, x="effective_rent_delivery", y="effective_rent_leaseup", color="Submarket", title="Delivery Rent vs Lease-Up Rent"), use_container_width=container_width)
 
-st.plotly_chart(px.box(market_df, y="effective_rent_growth", title="Effective Rent Growth Boxplot"), use_container_width=True)
+st.plotly_chart(px.box(market_df, y="effective_rent_growth", title="Effective Rent Growth Boxplot"), use_container_width=container_width)
 
-st.plotly_chart(px.pie(market_df, names="negative_growth", title="Negative Growth Proportion"), use_container_width=True)
+st.plotly_chart(px.pie(market_df, names="negative_growth", title="Negative Growth Proportion"), use_container_width=container_width)
 
-st.plotly_chart(px.scatter(market_df, x="umap_cluster", y="effective_rent_growth", color="umap_cluster", title="Clusters vs Rent Growth"), use_container_width=True)
+st.plotly_chart(px.scatter(market_df, x="umap_cluster", y="effective_rent_growth", color="umap_cluster", title="Clusters vs Rent Growth"), use_container_width=container_width)
 
-st.plotly_chart(px.histogram(market_df, x="property_age", nbins=20, title="Property Age Distribution"), use_container_width=True)
+st.plotly_chart(px.histogram(market_df, x="property_age", nbins=20, title="Property Age Distribution"), use_container_width=container_width)
 
-st.plotly_chart(px.pie(market_df, names="large_project_flag", title="Large Project Flag Proportion"), use_container_width=True)
+st.plotly_chart(px.pie(market_df, names="large_project_flag", title="Large Project Flag Proportion"), use_container_width=container_width)
