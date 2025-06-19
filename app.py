@@ -6,7 +6,7 @@ from openai import OpenAI
 import plotly.express as px
 
 st.set_page_config(layout="wide")
-st.title("Dynamic RAG Lease-Up Assistant")
+st.title("Property Analysis")
 
 @st.cache_data
 def load_data():
