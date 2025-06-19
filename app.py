@@ -24,11 +24,11 @@ filtered_df = market_df.copy()
 
 avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
 
-st.write(f"**Total rows in {target_market}: {market_df.shape[0]}**")
-st.write(f"**Average lease-up time for {target_market}: {avg_leaseup_time_market:.2f} months**")
+# st.write(f"**Total rows in {target_market}: {market_df.shape[0]}**")
+# st.write(f"**Average lease-up time for {target_market}: {avg_leaseup_time_market:.2f} months**")
 
 api_key = st.text_input("OpenAI API Key", type="password")
-user_question = st.text_area("Ask your question about lease-up data")
+user_question = st.text_area("Ask your question")
 
 if st.button("Get Answer"):
     if api_key and user_question:
