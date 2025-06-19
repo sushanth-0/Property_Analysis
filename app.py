@@ -29,7 +29,10 @@ if api_key:
     client = OpenAI(api_key=api_key)
 
     if button and user_q:
-        # Create embeddings on the fly only when question is asked
+        # Calculate the real average using pandas for accuracy
+        true_average = market_df["leaseup_time"].dropna().mean()
+
+        # Embed rows
         chunks = []
         embeddings = []
         for _, row in market_df.iterrows():
@@ -50,11 +53,17 @@ if api_key:
         retrieved = [chunks[i] for i in ids[0]]
 
         context = "\n\n".join(retrieved)
+        prompt = (
+            f"Rows:\n{context}\n\n"
+            f"Additionally, the actual average lease-up time for all rows is {true_average:.2f} months."
+            f" Use this if needed.\n\nQuestion: {user_q}"
+        )
+
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a lease-up analyst. Use only the retrieved rows."},
-                {"role": "user", "content": f"Rows:\n{context}\n\nQuestion: {user_q}"}
+                {"role": "system", "content": "You are a lease-up analyst. Use only the retrieved rows and the given average."},
+                {"role": "user", "content": prompt}
             ]
         )
         st.sidebar.subheader("Answer")
@@ -65,22 +74,22 @@ else:
 st.header(f"Market Dashboard: {market}")
 
 line_df = market_df.groupby("delivery_year").size().reset_index(name="Count")
-st.plotly_chart(px.line(line_df, x="delivery_year", y="Count"), use_container_width=True)
+st.plotly_chart(px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year"), use_container_width=True)
 
 submarket_counts = market_df["Submarket"].value_counts().reset_index()
 submarket_counts.columns = ["Submarket", "Count"]
-st.plotly_chart(px.bar(submarket_counts, x="Submarket", y="Count"), use_container_width=True)
+st.plotly_chart(px.bar(submarket_counts, x="Submarket", y="Count", title="Properties by Submarket"), use_container_width=True)
 
-st.plotly_chart(px.histogram(market_df, x="leaseup_time", nbins=30), use_container_width=True)
+st.plotly_chart(px.histogram(market_df, x="leaseup_time", nbins=30, title="Lease-Up Time Distribution"), use_container_width=True)
 
-st.plotly_chart(px.scatter(market_df, x="effective_rent_delivery", y="effective_rent_leaseup", color="Submarket"), use_container_width=True)
+st.plotly_chart(px.scatter(market_df, x="effective_rent_delivery", y="effective_rent_leaseup", color="Submarket", title="Delivery Rent vs Lease-Up Rent"), use_container_width=True)
 
-st.plotly_chart(px.box(market_df, y="effective_rent_growth"), use_container_width=True)
+st.plotly_chart(px.box(market_df, y="effective_rent_growth", title="Effective Rent Growth Boxplot"), use_container_width=True)
 
-st.plotly_chart(px.pie(market_df, names="negative_growth"), use_container_width=True)
+st.plotly_chart(px.pie(market_df, names="negative_growth", title="Negative Growth Proportion"), use_container_width=True)
 
-st.plotly_chart(px.scatter(market_df, x="umap_cluster", y="effective_rent_growth", color="umap_cluster"), use_container_width=True)
+st.plotly_chart(px.scatter(market_df, x="umap_cluster", y="effective_rent_growth", color="umap_cluster", title="Clusters vs Rent Growth"), use_container_width=True)
 
-st.plotly_chart(px.histogram(market_df, x="property_age", nbins=20), use_container_width=True)
+st.plotly_chart(px.histogram(market_df, x="property_age", nbins=20, title="Property Age Distribution"), use_container_width=True)
 
-st.plotly_chart(px.pie(market_df, names="large_project_flag"), use_container_width=True)
+st.plotly_chart(px.pie(market_df, names="large_project_flag", title="Large Project Flag Proportion"), use_container_width=True)
