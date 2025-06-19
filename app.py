@@ -14,6 +14,21 @@ def load_data():
 
 df = load_data()
 
+st.sidebar.title("Lease-Up Dashboard")
+market = st.sidebar.selectbox("Market", df["Market"].unique())
+filtered_df = df[df["Market"] == market]
+
+selected_submarket = st.sidebar.selectbox("Filter by Submarket", ["All"] + sorted(filtered_df["Submarket"].unique().tolist()))
+selected_year = st.sidebar.selectbox("Filter by Delivery Year", ["All"] + sorted(filtered_df["delivery_year"].unique().tolist()))
+selected_cluster = st.sidebar.selectbox("Filter by UMAP Cluster", ["All"] + sorted(filtered_df["umap_cluster"].unique().tolist()))
+
+if selected_submarket != "All":
+    filtered_df = filtered_df[filtered_df["Submarket"] == selected_submarket]
+if selected_year != "All":
+    filtered_df = filtered_df[filtered_df["delivery_year"] == selected_year]
+if selected_cluster != "All":
+    filtered_df = filtered_df[filtered_df["umap_cluster"] == int(selected_cluster)]
+
 st.header("Ask the GenAI")
 api_key = st.text_input("OpenAI API Key", type="password")
 user_question = st.text_area("Your Question")
@@ -21,7 +36,8 @@ user_question = st.text_area("Your Question")
 if st.button("Get Answer"):
     if api_key and user_question:
         openai.api_key = api_key
-        context = f"Columns: delivery_year, Submarket, leaseup_time, effective_rent_delivery, effective_rent_leaseup, effective_rent_growth, negative_growth, umap_cluster, property_age, large_project_flag. Sample: {df.head(5).to_dict()}"
+        # Use only filtered data context
+        context = f"Current filtered data: {filtered_df.head(10).to_dict()}"
         response = openai.ChatCompletion.create(
             model="gpt-4o",
             messages=[
@@ -33,27 +49,9 @@ if st.button("Get Answer"):
     else:
         st.warning("Enter API key and question.")
 
-st.sidebar.title("Lease-Up Dashboard")
-market = st.sidebar.selectbox("Market", df["Market"].unique())
-filtered_df = df[df["Market"] == market]
-
-# Create dynamic filters for each feature
-selected_submarket = st.sidebar.selectbox("Filter by Submarket", ["All"] + sorted(filtered_df["Submarket"].unique().tolist()))
-selected_year = st.sidebar.selectbox("Filter by Delivery Year", ["All"] + sorted(filtered_df["delivery_year"].unique().tolist()))
-selected_cluster = st.sidebar.selectbox("Filter by UMAP Cluster", ["All"] + sorted(filtered_df["umap_cluster"].unique().tolist()))
-
-# Apply filters
-if selected_submarket != "All":
-    filtered_df = filtered_df[filtered_df["Submarket"] == selected_submarket]
-if selected_year != "All":
-    filtered_df = filtered_df[filtered_df["delivery_year"] == selected_year]
-if selected_cluster != "All":
-    filtered_df = filtered_df[filtered_df["umap_cluster"] == int(selected_cluster)]
-
 st.title("Property Lease-Up Dashboard")
 st.write(f"Market: {market}")
 
-# Visualizations
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="count")
 fig1 = px.line(line_df, x="delivery_year", y="count", title="Properties Delivered per Year")
 st.plotly_chart(fig1, use_container_width=True)
