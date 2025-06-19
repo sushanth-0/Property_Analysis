@@ -1,0 +1,6 @@
+delivery_year,Submarket,leaseup_time,effective_rent_delivery,effective_rent_leaseup,effective_rent_growth,negative_growth,umap_cluster,property_age,large_project_flag
+2018,Kent/Portage County,,1230.0,,,False,2,0,0
+2017,South Summit County,,1125.0,,,False,0,0,0
+2016,South Summit County,,1219.0,,,False,1,0,0
+2020,South Summit County,0.0,1679.0,1550.0,-129.0,True,0,0,0
+2020,South Summit County,2.0,1034.0,1279.0,245.0,False,3,1,0

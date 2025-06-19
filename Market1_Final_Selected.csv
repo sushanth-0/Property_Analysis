@@ -1,0 +1,294 @@
+delivery_year,Submarket,leaseup_time,effective_rent_delivery,effective_rent_leaseup,effective_rent_growth,negative_growth,umap_cluster,property_age,large_project_flag
+2020,East Austin,0.0,1347.0,1250.0,-97.0,True,2,-1,1
+2019,Southwest Austin,0.0,1576.0,1385.0,-191.0,True,0,0,1
+2014,Downtown/University,76.0,2802.0,2605.0,-197.0,True,3,0,1
+2017,East Austin,6.0,2091.0,1967.0,-124.0,True,2,-1,1
+2019,Cedar Park,8.0,1488.0,1367.0,-121.0,True,2,-1,1
+2015,Downtown/University,2.0,3204.0,3370.0,166.0,False,3,0,1
+2008,Cedar Park,2.0,1054.0,963.0,-91.0,True,0,0,1
+2008,East Austin,17.0,793.0,717.0,-76.0,True,0,0,1
+2017,Pflugerville/Wells Branch,13.0,1412.0,1373.0,-39.0,True,3,0,1
+2014,Far West Austin,2.0,1382.0,1230.0,-152.0,True,3,0,1
+2018,Cedar Park,0.0,1534.0,1416.0,-118.0,True,3,0,1
+2016,Downtown/University,1.0,3388.0,3106.0,-282.0,True,3,0,1
+2016,Southeast Austin,0.0,1456.0,1344.0,-112.0,True,0,0,1
+2019,Cedar Park,0.0,1855.0,1722.0,-133.0,True,2,-1,1
+2016,South Austin,4.0,2788.0,2554.0,-234.0,True,2,-1,1
+2010,Round Rock/Georgetown,,973.0,,,False,0,0,1
+2008,Far West Austin,0.0,1551.0,1345.0,-206.0,True,2,-1,1
+2009,Round Rock/Georgetown,0.0,1084.0,877.0,-207.0,True,3,0,1
+2014,Riverside,1.0,1945.0,1795.0,-150.0,True,1,0,0
+2008,Pflugerville/Wells Branch,0.0,1036.0,895.0,-141.0,True,3,0,1
+2017,Round Rock/Georgetown,0.0,1442.0,1322.0,-120.0,True,2,-1,1
+2008,Far South Austin,1.0,1154.0,962.0,-192.0,True,2,-1,1
+2008,Downtown/University,0.0,2108.0,1989.0,-119.0,True,1,0,0
+2014,Cedar Park,13.0,1257.0,1126.0,-131.0,True,2,-1,1
+2010,Southwest Austin,3.0,1025.0,852.0,-173.0,True,3,0,1
+2020,Round Rock/Georgetown,0.0,1391.0,1292.0,-99.0,True,2,-1,1
+2016,Southwest Austin,4.0,1582.0,1380.0,-202.0,True,2,-1,1
+2018,Round Rock/Georgetown,3.0,1553.0,1407.0,-146.0,True,2,-1,1
+2015,Far West Austin,0.0,1529.0,1402.0,-127.0,True,2,-1,1
+2009,South Austin,0.0,2154.0,1693.0,-461.0,True,1,0,0
+2017,Riverside,0.0,1436.0,1316.0,-120.0,True,1,0,0
+2019,Cedar Park,0.0,1289.0,1075.0,-214.0,True,3,1,1
+2008,Southeast Austin,,670.0,,,False,3,5,0
+2008,East Austin,1.0,1130.0,942.0,-188.0,True,0,0,1
+2009,Downtown/University,0.0,2354.0,1932.0,-422.0,True,1,0,0
+2008,Southwest Austin,3.0,1695.0,1535.0,-160.0,True,1,0,0
+2015,Cedar Park,21.0,1526.0,1316.0,-210.0,True,3,0,1
+2020,Riverside,0.0,2920.0,2555.0,-365.0,True,1,0,0
+2019,Cedar Park,0.0,1624.0,1426.0,-198.0,True,1,-1,0
+2008,Downtown/University,2.0,2870.0,2754.0,-116.0,True,3,0,1
+2009,Downtown/University,7.0,2959.0,2799.0,-160.0,True,0,0,1
+2016,Downtown/University,5.0,3158.0,3046.0,-112.0,True,1,0,0
+2020,Round Rock/Georgetown,0.0,1770.0,1475.0,-295.0,True,2,-1,1
+2018,East Austin,0.0,1507.0,1319.0,-188.0,True,1,0,0
+2020,Riverside,,1207.0,,,False,1,0,0
+2008,South Austin,5.0,1412.0,1281.0,-131.0,True,1,0,0
+2016,Pflugerville/Wells Branch,23.0,1039.0,967.0,-72.0,True,2,-1,1
+2014,East Austin,0.0,1280.0,1181.0,-99.0,True,3,0,1
+2017,South Austin,3.0,1796.0,1600.0,-196.0,True,0,0,1
+2018,East Austin,0.0,1694.0,1553.0,-141.0,True,2,-1,1
+2012,Pflugerville/Wells Branch,14.0,823.0,866.0,43.0,False,2,-1,1
+2020,North Central Austin,2.0,1450.0,1215.0,-235.0,True,0,0,1
+2020,Pflugerville/Wells Branch,0.0,1305.0,1196.0,-109.0,True,2,-1,1
+2020,East Austin,0.0,2056.0,1713.0,-343.0,True,0,0,1
+2011,San Marcos,0.0,900.0,794.0,-106.0,True,2,-1,1
+2016,Near North Austin,0.0,1632.0,1522.0,-110.0,True,0,0,1
+2019,North Central Austin,0.0,1628.0,1492.0,-136.0,True,0,0,1
+2015,East Austin,0.0,1857.0,1655.0,-202.0,True,1,-1,0
+2017,Pflugerville/Wells Branch,3.0,1193.0,1088.0,-105.0,True,0,0,1
+2019,Near North Austin,10.0,1563.0,1422.0,-141.0,True,1,0,0
+2020,Far South Austin,0.0,1514.0,1339.0,-175.0,True,0,0,1
+2017,Northwest Austin,5.0,1353.0,1259.0,-94.0,True,1,0,0
+2013,North Central Austin,42.0,1310.0,1244.0,-66.0,True,3,-1,1
+2016,East Austin,20.0,2133.0,1746.0,-387.0,True,2,-1,1
+2016,San Marcos,8.0,1042.0,950.0,-92.0,True,2,-1,1
+2015,East Austin,0.0,1941.0,1792.0,-149.0,True,2,-2,1
+2017,South Austin,0.0,1773.0,1637.0,-136.0,True,2,-1,1
+2015,Riverside,5.0,1623.0,1524.0,-99.0,True,2,-1,1
+2020,Pflugerville/Wells Branch,0.0,1315.0,1205.0,-110.0,True,0,0,1
+2009,Round Rock/Georgetown,2.0,874.0,764.0,-110.0,True,0,0,1
+2013,South Austin,6.0,1724.0,1628.0,-96.0,True,2,-1,1
+2018,North Central Austin,1.0,1636.0,1469.0,-167.0,True,3,0,1
+2019,East Austin,1.0,2036.0,1934.0,-102.0,True,2,-1,1
+2013,Cedar Park,,922.0,,,False,2,-1,1
+2018,Pflugerville/Wells Branch,0.0,1330.0,1227.0,-103.0,True,0,0,1
+2015,North Central Austin,0.0,1477.0,1354.0,-123.0,True,0,0,1
+2008,Far South Austin,3.0,873.0,767.0,-106.0,True,2,-1,1
+2014,Round Rock/Georgetown,32.0,945.0,1005.0,60.0,False,3,0,1
+2014,Near North Austin,2.0,1452.0,1333.0,-119.0,True,1,0,0
+2013,Downtown/University,0.0,2078.0,1988.0,-90.0,True,2,-1,1
+2020,Cedar Park,0.0,1325.0,1173.0,-152.0,True,0,0,1
+2008,North Central Austin,3.0,865.0,754.0,-111.0,True,0,0,1
+2016,North Central Austin,0.0,1533.0,1405.0,-128.0,True,0,0,1
+2019,Pflugerville/Wells Branch,1.0,1255.0,1187.0,-68.0,True,3,0,1
+2013,East Austin,7.0,1669.0,1684.0,15.0,False,2,-1,1
+2009,North Central Austin,106.0,1243.0,1163.0,-80.0,True,0,0,1
+2014,Near North Austin,6.0,1390.0,1172.0,-218.0,True,1,0,0
+2019,Pflugerville/Wells Branch,,1248.0,,,False,3,0,1
+2016,Southeast Austin,18.0,1149.0,1024.0,-125.0,True,2,-1,1
+2015,Northwest Austin,17.0,1162.0,1095.0,-67.0,True,2,-1,1
+2014,Arboretum,0.0,1524.0,1419.0,-105.0,True,2,-1,1
+2020,Cedar Park,0.0,1510.0,1384.0,-126.0,True,0,0,1
+2019,Near North Austin,0.0,2150.0,2045.0,-105.0,True,1,0,0
+2019,Riverside,0.0,1611.0,1477.0,-134.0,True,2,-1,1
+2016,South Austin,0.0,2197.0,2014.0,-183.0,True,3,0,1
+2017,Riverside,0.0,1769.0,1622.0,-147.0,True,2,-1,1
+2015,Round Rock/Georgetown,5.0,1113.0,1067.0,-46.0,True,3,0,1
+2014,South Austin,0.0,1920.0,1789.0,-131.0,True,2,-2,1
+2015,East Austin,6.0,1529.0,1498.0,-31.0,True,3,0,1
+2018,Far South Austin,1.0,1200.0,1214.0,14.0,False,1,0,0
+2018,East Austin,0.0,2067.0,1816.0,-251.0,True,3,0,1
+2013,South Austin,0.0,1574.0,1443.0,-131.0,True,2,-1,1
+2020,East Austin,0.0,1778.0,1556.0,-222.0,True,0,0,1
+2017,Far South Austin,0.0,1344.0,1232.0,-112.0,True,2,-1,1
+2018,Near North Austin,0.0,1679.0,1470.0,-209.0,True,3,0,1
+2019,North Central Austin,,2006.0,,,False,2,-1,1
+2017,San Marcos,,1257.0,,,False,1,-1,0
+2015,Far South Austin,1.0,1300.0,1150.0,-150.0,True,2,-1,1
+2016,East Austin,0.0,1669.0,1533.0,-136.0,True,2,-1,1
+2015,Round Rock/Georgetown,5.0,1080.0,1005.0,-75.0,True,3,0,1
+2020,Cedar Park,0.0,1432.0,1333.0,-99.0,True,0,0,1
+2013,Far South Austin,48.0,1063.0,1079.0,16.0,False,3,0,1
+2014,East Austin,1.0,1495.0,1405.0,-90.0,True,2,-1,1
+2014,Downtown/University,9.0,1717.0,1478.0,-239.0,True,3,0,1
+2015,Southwest Austin,20.0,1210.0,1172.0,-38.0,True,3,0,1
+2020,Far South Austin,0.0,1504.0,1331.0,-173.0,True,3,0,1
+2010,Near North Austin,0.0,1428.0,1330.0,-98.0,True,1,0,0
+2019,Southeast Austin,,1161.0,,,False,1,0,0
+2009,Pflugerville/Wells Branch,5.0,997.0,882.0,-115.0,True,0,0,1
+2014,San Marcos,0.0,1007.0,839.0,-168.0,True,1,0,0
+2020,Cedar Park,,1355.0,,,False,0,0,1
+2018,Far South Austin,,1158.0,,,False,3,0,1
+2016,San Marcos,9.0,1235.0,1115.0,-120.0,True,3,0,1
+2018,Pflugerville/Wells Branch,0.0,1241.0,1086.0,-155.0,True,0,0,1
+2014,Near North Austin,,1548.0,,,False,2,-1,1
+2016,San Marcos,10.0,1048.0,1150.0,102.0,False,1,0,0
+2017,North Central Austin,,888.0,,,False,3,0,1
+2020,East Austin,2.0,1208.0,1062.0,-146.0,True,3,0,1
+2010,Round Rock/Georgetown,0.0,930.0,786.0,-144.0,True,3,1,1
+2011,San Marcos,19.0,975.0,898.0,-77.0,True,1,0,0
+2016,San Marcos,30.0,1128.0,1063.0,-65.0,True,2,-1,1
+2008,Round Rock/Georgetown,2.0,1035.0,788.0,-247.0,True,2,-1,1
+2014,North Central Austin,75.0,1433.0,1708.0,275.0,False,3,0,1
+2013,San Marcos,50.0,954.0,996.0,42.0,False,3,0,1
+2016,Southwest Austin,0.0,1381.0,1266.0,-115.0,True,2,-1,1
+2012,South Austin,7.0,1638.0,1529.0,-109.0,True,2,-1,1
+2017,San Marcos,3.0,1222.0,1119.0,-103.0,True,0,0,1
+2013,South Austin,4.0,1612.0,1447.0,-165.0,True,2,-1,1
+2017,Southeast Austin,0.0,1312.0,1203.0,-109.0,True,0,0,1
+2017,Pflugerville/Wells Branch,10.0,1168.0,1104.0,-64.0,True,3,0,1
+2013,Far South Austin,26.0,1169.0,1181.0,12.0,False,2,-1,1
+2016,Cedar Park,10.0,1086.0,1065.0,-21.0,True,3,0,1
+2018,Southwest Austin,0.0,1315.0,1221.0,-94.0,True,2,-1,1
+2016,Far South Austin,1.0,1288.0,1181.0,-107.0,True,3,0,1
+2013,Cedar Park,40.0,1065.0,1088.0,23.0,False,2,-1,1
+2017,Cedar Park,0.0,1302.0,1085.0,-217.0,True,0,0,1
+2020,North Central Austin,0.0,1366.0,1261.0,-105.0,True,3,0,1
+2008,Downtown/University,0.0,1684.0,1473.0,-211.0,True,1,-1,0
+2014,South Austin,0.0,1693.0,1573.0,-120.0,True,2,-2,1
+2009,Northwest Austin,0.0,1063.0,862.0,-201.0,True,3,0,1
+2010,North Central Austin,87.0,798.0,1007.0,209.0,False,0,0,1
+2018,Cedar Park,3.0,1199.0,1163.0,-36.0,True,3,0,1
+2016,South Austin,0.0,1555.0,1442.0,-113.0,True,1,-1,0
+2016,Cedar Park,14.0,1344.0,1273.0,-71.0,True,2,-1,1
+2016,Round Rock/Georgetown,4.0,1109.0,1019.0,-90.0,True,2,-1,1
+2018,Far South Austin,1.0,1314.0,1204.0,-110.0,True,3,0,1
+2017,San Marcos,1.0,1201.0,1101.0,-100.0,True,2,-1,1
+2010,Southwest Austin,,1108.0,,,False,1,0,0
+2016,Downtown/University,0.0,2298.0,2140.0,-158.0,True,0,0,1
+2019,San Marcos,,1273.0,,,False,1,-1,0
+2019,Downtown/University,,2659.0,,,False,3,0,1
+2012,Far South Austin,,1075.0,,,False,2,-1,1
+2016,Downtown/University,1.0,1825.0,1689.0,-136.0,True,3,0,1
+2019,Southeast Austin,0.0,1373.0,1276.0,-97.0,True,2,-1,1
+2019,Southwest Austin,0.0,1661.0,1454.0,-207.0,True,2,-1,1
+2017,North Central Austin,0.0,1651.0,1523.0,-128.0,True,2,-1,1
+2015,Round Rock/Georgetown,23.0,1109.0,1048.0,-61.0,True,0,0,1
+2009,Far South Austin,0.0,1054.0,878.0,-176.0,True,3,0,1
+2019,Southwest Austin,,1452.0,,,False,1,0,0
+2015,Pflugerville/Wells Branch,1.0,1262.0,1160.0,-102.0,True,0,0,1
+2014,Near North Austin,0.0,1663.0,1455.0,-208.0,True,2,-1,1
+2008,East Austin,3.0,943.0,825.0,-118.0,True,0,0,1
+2014,South Austin,1.0,2258.0,2070.0,-188.0,True,2,-1,1
+2013,Northwest Austin,,1082.0,,,False,2,-1,1
+2008,Cedar Park,0.0,930.0,817.0,-113.0,True,3,0,1
+2010,San Marcos,0.0,980.0,789.0,-191.0,True,0,0,1
+2009,Pflugerville/Wells Branch,5.0,849.0,840.0,-9.0,True,0,0,1
+2014,Riverside,1.0,1695.0,1558.0,-137.0,True,1,0,0
+2013,Downtown/University,13.0,2560.0,2504.0,-56.0,True,3,0,1
+2010,Riverside,0.0,1381.0,1266.0,-115.0,True,3,0,1
+2015,Cedar Park,15.0,1188.0,1147.0,-41.0,True,2,-1,1
+2020,North Central Austin,,1805.0,,,False,3,0,1
+2010,North Central Austin,1.0,1266.0,1078.0,-188.0,True,3,0,1
+2009,Near North Austin,0.0,1429.0,1191.0,-238.0,True,3,0,1
+2015,Northwest Austin,42.0,1244.0,1268.0,24.0,False,2,-1,1
+2013,North Central Austin,,1362.0,,,False,0,0,1
+2016,Cedar Park,0.0,1436.0,1326.0,-110.0,True,2,-1,1
+2020,Near North Austin,0.0,1845.0,1633.0,-212.0,True,3,0,1
+2018,North Central Austin,0.0,1708.0,1565.0,-143.0,True,2,-1,1
+2016,Far South Austin,0.0,1613.0,1479.0,-134.0,True,3,0,1
+2015,South Austin,0.0,2575.0,2399.0,-176.0,True,3,0,1
+2014,Southeast Austin,36.0,1231.0,1109.0,-122.0,True,3,0,1
+2008,Downtown/University,2.0,2479.0,2083.0,-396.0,True,3,0,1
+2015,Round Rock/Georgetown,,1123.0,,,False,3,0,1
+2020,Cedar Park,0.0,1572.0,1441.0,-131.0,True,3,0,1
+2009,Downtown/University,0.0,1864.0,1720.0,-144.0,True,1,-1,0
+2014,Far South Austin,6.0,1309.0,1197.0,-112.0,True,1,0,0
+2019,Northwest Austin,0.0,1655.0,1537.0,-118.0,True,2,-1,1
+2015,North Central Austin,0.0,1524.0,1404.0,-120.0,True,3,0,1
+2019,Pflugerville/Wells Branch,,1255.0,,,False,2,-1,1
+2014,South Austin,1.0,2157.0,1980.0,-177.0,True,2,-1,1
+2015,Far South Austin,7.0,1232.0,1076.0,-156.0,True,2,-1,1
+2008,Southeast Austin,0.0,1027.0,893.0,-134.0,True,3,0,1
+2013,Cedar Park,,1072.0,,,False,3,0,1
+2012,Southwest Austin,64.0,1167.0,1134.0,-33.0,True,3,0,1
+2016,Cedar Park,1.0,1266.0,1275.0,9.0,False,1,-1,0
+2008,Southwest Austin,0.0,1149.0,1053.0,-96.0,True,3,0,1
+2018,San Marcos,0.0,1289.0,1181.0,-108.0,True,1,0,0
+2012,South Austin,3.0,1819.0,1700.0,-119.0,True,0,0,1
+2013,Riverside,3.0,1658.0,1576.0,-82.0,True,2,-1,1
+2015,Southeast Austin,1.0,1350.0,1230.0,-120.0,True,2,-1,1
+2017,Southeast Austin,5.0,1141.0,1053.0,-88.0,True,2,-1,1
+2009,Round Rock/Georgetown,0.0,925.0,797.0,-128.0,True,3,0,1
+2019,Round Rock/Georgetown,0.0,1346.0,1234.0,-112.0,True,2,-1,1
+2013,East Austin,4.0,1752.0,1600.0,-152.0,True,2,-1,1
+2012,North Central Austin,43.0,1003.0,1065.0,62.0,False,0,0,1
+2015,Downtown/University,0.0,2926.0,2682.0,-244.0,True,3,0,1
+2013,Cedar Park,,1100.0,,,False,2,-1,1
+2019,Round Rock/Georgetown,0.0,1424.0,1306.0,-118.0,True,2,-1,1
+2013,Riverside,7.0,2448.0,2322.0,-126.0,True,0,0,1
+2009,Far South Austin,0.0,1188.0,990.0,-198.0,True,3,0,1
+2017,Round Rock/Georgetown,1.0,1341.0,1229.0,-112.0,True,2,-1,1
+2017,Round Rock/Georgetown,5.0,1348.0,1246.0,-102.0,True,2,-1,1
+2013,North Central Austin,,975.0,,,False,2,-1,1
+2020,Cedar Park,0.0,1332.0,1221.0,-111.0,True,1,0,0
+2020,North Central Austin,0.0,2554.0,2235.0,-319.0,True,1,0,0
+2020,Cedar Park,0.0,1347.0,1179.0,-168.0,True,0,0,1
+2017,Northwest Austin,41.0,1491.0,1344.0,-147.0,True,3,0,1
+2015,Near North Austin,0.0,1756.0,1610.0,-146.0,True,2,-1,1
+2020,Round Rock/Georgetown,0.0,1384.0,1285.0,-99.0,True,0,0,1
+2008,Pflugerville/Wells Branch,0.0,1018.0,922.0,-96.0,True,3,0,1
+2019,Southwest Austin,5.0,1478.0,1399.0,-79.0,True,2,-1,1
+2009,Far South Austin,6.0,1131.0,1001.0,-130.0,True,1,0,0
+2017,San Marcos,36.0,1177.0,1179.0,2.0,False,1,0,0
+2015,Pflugerville/Wells Branch,,1103.0,,,False,3,0,1
+2012,Far South Austin,44.0,1105.0,1059.0,-46.0,True,2,-1,1
+2009,Southeast Austin,15.0,846.0,760.0,-86.0,True,3,1,1
+2019,Cedar Park,0.0,1382.0,1276.0,-106.0,True,2,-1,1
+2017,Pflugerville/Wells Branch,,1222.0,,,False,3,0,1
+2020,Southeast Austin,,1418.0,,,False,2,-1,1
+2018,Southwest Austin,1.0,1622.0,1309.0,-313.0,True,2,-1,1
+2013,North Central Austin,,1038.0,,,False,1,0,0
+2009,Round Rock/Georgetown,0.0,1047.0,765.0,-282.0,True,3,0,1
+2008,Southwest Austin,0.0,1417.0,1181.0,-236.0,True,3,0,1
+2018,Pflugerville/Wells Branch,0.0,1318.0,1153.0,-165.0,True,3,0,1
+2019,Far West Austin,,1471.0,,,False,3,0,1
+2015,Southwest Austin,18.0,1407.0,1252.0,-155.0,True,1,-1,0
+2019,North Central Austin,0.0,1386.0,1271.0,-115.0,True,3,0,1
+2016,Southwest Austin,0.0,1549.0,1420.0,-129.0,True,2,-1,1
+2012,Pflugerville/Wells Branch,59.0,1118.0,1138.0,20.0,False,2,-1,1
+2017,Northwest Austin,9.0,1354.0,1286.0,-68.0,True,2,-1,1
+2017,Southwest Austin,0.0,1554.0,1254.0,-300.0,True,3,0,1
+2018,Southeast Austin,4.0,1332.0,1173.0,-159.0,True,3,0,1
+2008,East Austin,3.0,1606.0,1472.0,-134.0,True,3,1,1
+2019,Riverside,2.0,1773.0,1706.0,-67.0,True,3,0,1
+2019,Riverside,0.0,2448.0,2254.0,-194.0,True,0,0,1
+2012,San Marcos,39.0,1144.0,1131.0,-13.0,True,3,1,1
+2017,Far West Austin,9.0,1481.0,1305.0,-176.0,True,2,-1,1
+2020,Southeast Austin,6.0,1697.0,1461.0,-236.0,True,1,0,0
+2013,Cedar Park,2.0,1329.0,1200.0,-129.0,True,3,0,1
+2018,San Marcos,0.0,1347.0,1235.0,-112.0,True,2,-1,1
+2010,Cedar Park,0.0,1136.0,990.0,-146.0,True,3,0,1
+2019,Downtown/University,0.0,3420.0,3135.0,-285.0,True,2,-1,1
+2018,East Austin,0.0,1365.0,1260.0,-105.0,True,2,-1,1
+2014,Cedar Park,47.0,1309.0,1324.0,15.0,False,3,0,1
+2009,Southwest Austin,0.0,1138.0,973.0,-165.0,True,3,0,1
+2009,Round Rock/Georgetown,0.0,1028.0,829.0,-199.0,True,3,0,1
+2017,Cedar Park,2.0,1267.0,1161.0,-106.0,True,1,-1,0
+2008,Cedar Park,4.0,1016.0,858.0,-158.0,True,3,1,1
+2008,Downtown/University,5.0,2012.0,1855.0,-157.0,True,1,0,0
+2014,Southwest Austin,9.0,1381.0,1311.0,-70.0,True,2,-1,1
+2012,Far West Austin,10.0,1236.0,1129.0,-107.0,True,3,0,1
+2008,South Austin,0.0,1554.0,1425.0,-129.0,True,0,0,1
+2017,Northwest Austin,3.0,1352.0,1231.0,-121.0,True,2,-1,1
+2009,Pflugerville/Wells Branch,1.0,1141.0,1046.0,-95.0,True,3,0,1
+2017,Round Rock/Georgetown,5.0,1208.0,1011.0,-197.0,True,2,-1,1
+2017,Round Rock/Georgetown,2.0,1155.0,1079.0,-76.0,True,3,0,1
+2008,Cedar Park,0.0,1045.0,898.0,-147.0,True,2,-1,1
+2009,East Austin,0.0,1506.0,1292.0,-214.0,True,3,0,1
+2018,North Central Austin,,1466.0,,,False,2,-1,1
+2009,Far West Austin,0.0,1127.0,954.0,-173.0,True,0,0,1
+2015,Southwest Austin,8.0,1449.0,1316.0,-133.0,True,2,-1,1
+2020,San Marcos,0.0,1355.0,1242.0,-113.0,True,0,0,1
+2016,Southwest Austin,1.0,1684.0,1543.0,-141.0,True,0,0,1
+2019,San Marcos,1.0,1428.0,1310.0,-118.0,True,2,-1,1
+2013,Round Rock/Georgetown,,1290.0,,,False,1,0,0
+2016,Cedar Park,4.0,1370.0,1187.0,-183.0,True,2,-1,1
+2014,Round Rock/Georgetown,,1139.0,,,False,2,-1,1
+2018,Southwest Austin,0.0,1707.0,1594.0,-113.0,True,0,0,1
+2009,Round Rock/Georgetown,0.0,1058.0,904.0,-154.0,True,3,0,1
+2018,Southwest Austin,0.0,2182.0,2000.0,-182.0,True,1,0,0
+2018,Cedar Park,0.0,1314.0,1095.0,-219.0,True,2,-1,1
+2013,Southwest Austin,13.0,1552.0,1364.0,-188.0,True,2,-1,1
