@@ -15,26 +15,13 @@ df = load_data()
 
 st.title("GenAI Lease-Up Assistant & Dashboard")
 
-market = st.selectbox("Select Market", df["Market"].unique())
-
-features = [
-    "delivery_year", "Submarket", "leaseup_time", "effective_rent_delivery",
-    "effective_rent_leaseup", "effective_rent_growth", "negative_growth",
-    "umap_cluster", "property_age", "large_project_flag"
-]
-
-selected_features = st.multiselect("Select features for GenAI", features, default=features)
-
-market_df = df[df["Market"] == market]
+market_df = df[df["Market"] == "Market 1"]  # Default to Market 1
 filtered_df = market_df.copy()
 
 avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
 
-st.write(f"**Total rows in {market}: {market_df.shape[0]}**")
-st.write(f"**Average lease-up time for {market}: {avg_leaseup_time_market:.2f} months**")
-
-st.write("**All lease-up times:**")
-st.dataframe(market_df[["leaseup_time"]])
+st.write(f"**Total rows in Market 1: {market_df.shape[0]}**")
+st.write(f"**Average lease-up time for Market 1: {avg_leaseup_time_market:.2f} months**")
 
 api_key = st.text_input("OpenAI API Key", type="password")
 user_question = st.text_area("Ask your question about lease-up data")
@@ -43,7 +30,7 @@ if st.button("Get Answer"):
     if api_key and user_question:
         try:
             client = OpenAI(api_key=api_key)
-            context = f"Market: {market}; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}; Features: {selected_features}"
+            context = f"Market: Market 1; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}"
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -57,7 +44,7 @@ if st.button("Get Answer"):
     else:
         st.warning("Please enter your API key and a question.")
 
-st.header("📊 Lease-Up Dashboard")
+st.header("Lease-Up Dashboard")
 
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
 fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
