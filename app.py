@@ -22,10 +22,8 @@ target_market = st.selectbox("Select Market", df["Market"].unique())
 market_df = df[df["Market"] == target_market]
 filtered_df = market_df.copy()
 
+# For demonstration, show row count & avg leaseup
 avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
-
-# st.write(f"**Total rows in {target_market}: {market_df.shape[0]}**")
-# st.write(f"**Average lease-up time for {target_market}: {avg_leaseup_time_market:.2f} months**")
 
 api_key = st.text_input("OpenAI API Key", type="password")
 user_question = st.text_area("Ask your question")
@@ -34,20 +32,39 @@ if st.button("Get Answer"):
     if api_key and user_question:
         try:
             client = OpenAI(api_key=api_key)
-            leaseup_values = market_df["leaseup_time"].dropna().tolist()
-            context = f"Market: {target_market}; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}; Lease-up times: {leaseup_values}"
+            
+            # ✅ Instead of only leaseup_time, pass all columns context:
+            context_rows = []
+            for idx, row in market_df.head(20).iterrows():  # Limit to 20 rows for prompt length
+                row_str = " | ".join([f"{col}: {row[col]}" for col in market_df.columns])
+                context_rows.append(f"Row {idx}: {row_str}")
+            context = "\n\n".join(context_rows)
+            
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a helpful lease-up data assistant with full dataset context."},
-                    {"role": "user", "content": f"{context} | Question: {user_question}"}
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a smart assistant for property lease-up data. "
+                            "Answer using ONLY the provided context. "
+                            "Cover delivery year, submarket, leaseup_time, rents, growth, cluster, age, flags etc."
+                        )
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Data:\n{context}\n\nQuestion: {user_question}\n\nAnswer using only this data."
+                    }
                 ]
             )
             st.write(response.choices[0].message.content)
+
         except Exception as e:
             st.error(f"Error: {str(e)}")
     else:
         st.warning("Please enter your API key and a question.")
+
+# === Visuals ===
 
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
 fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
