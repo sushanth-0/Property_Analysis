@@ -1,3 +1,5 @@
+# ✔️ Here’s the fix: explicitly display all leaseup_time values for Market 1 so you can verify it.
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -38,9 +40,9 @@ if st.button("Get Answer"):
     if api_key and user_question:
         try:
             client = OpenAI(api_key=api_key)
-            # Calculate correct average for filtered dataset only
-            avg_leaseup_time_filtered = filtered_df["leaseup_time"].dropna().mean()
-            context = f"Total rows in {market}: {df[df['Market'] == market].shape[0]}; Filtered rows: {filtered_df.shape[0]}; Average lease-up time for filtered data: {avg_leaseup_time_filtered:.2f} months"
+            market_df = df[df["Market"] == market]
+            avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
+            context = f"Market rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f} months; All lease-up times: {market_df['leaseup_time'].tolist()}"
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -55,11 +57,14 @@ if st.button("Get Answer"):
         st.warning("Enter your API key and a question.")
 
 st.title("Property Lease-Up Dashboard")
-st.write(f"Market: {market}")
 
-# Show correct average for current filter
-avg_leaseup_time_filtered = filtered_df["leaseup_time"].dropna().mean()
-st.write(f"**Average Lease-Up Time for filtered data: {avg_leaseup_time_filtered:.2f} months**")
+market_df = df[df["Market"] == market]
+st.write(f"**Total rows in {market}: {market_df.shape[0]}**")
+st.write(f"**All lease-up times for {market}:**")
+st.dataframe(market_df[["leaseup_time"]])
+
+avg_leaseup_time_market = market_df["leaseup_time"].dropna().mean()
+st.write(f"**Correct Average Lease-Up Time for {market}: {avg_leaseup_time_market:.2f} months**")
 
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
 fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
