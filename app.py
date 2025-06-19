@@ -30,11 +30,13 @@ if st.button("Get Answer"):
     if api_key and user_question:
         try:
             client = OpenAI(api_key=api_key)
-            context = f"Market: Market 1; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}"
+            # Instead of just providing static average, pass the full leaseup_time data
+            leaseup_values = market_df["leaseup_time"].dropna().tolist()
+            context = f"Market: Market 1; Rows: {market_df.shape[0]}; Average lease-up time: {avg_leaseup_time_market:.2f}; Lease-up times: {leaseup_values}"
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a helpful lease-up data assistant."},
+                    {"role": "system", "content": "You are a helpful lease-up data assistant. You have access to the full lease-up time data."},
                     {"role": "user", "content": f"{context} | Question: {user_question}"}
                 ]
             )
@@ -44,7 +46,7 @@ if st.button("Get Answer"):
     else:
         st.warning("Please enter your API key and a question.")
 
-st.header("Lease-Up Dashboard")
+st.header("📊 Lease-Up Dashboard")
 
 line_df = filtered_df.groupby("delivery_year").size().reset_index(name="Count")
 fig1 = px.line(line_df, x="delivery_year", y="Count", title="Properties Delivered per Year")
