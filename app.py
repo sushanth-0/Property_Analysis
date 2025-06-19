@@ -28,23 +28,27 @@ button = st.sidebar.button("Generate Answer")
 if api_key:
     client = OpenAI(api_key=api_key)
 
-    if button and user_q:
-        # Calculate the real average using pandas for accuracy
-        true_average = market_df["leaseup_time"].dropna().mean()
-
-        # Embed rows
+    @st.cache_resource
+    def build_index(df, api_key):
+        temp_client = OpenAI(api_key=api_key)
         chunks = []
         embeddings = []
-        for _, row in market_df.iterrows():
-            text = " | ".join([f"{col}: {row[col]}" for col in market_df.columns])
+        for _, row in df.iterrows():
+            text = " | ".join([f"{col}: {row[col]}" for col in df.columns])
             chunks.append(text)
-            emb = client.embeddings.create(model="text-embedding-3-large", input=text).data[0].embedding
+            emb = temp_client.embeddings.create(model="text-embedding-3-large", input=text).data[0].embedding
             embeddings.append(emb)
         vectors = np.array(embeddings, dtype=np.float32)
         dim = vectors.shape[1]
         index = faiss.IndexFlatIP(dim)
         faiss.normalize_L2(vectors)
         index.add(vectors)
+        return index, chunks
+
+    index, chunks = build_index(market_df, api_key)
+
+    if button and user_q:
+        true_average = market_df["leaseup_time"].dropna().mean()
 
         q_emb = client.embeddings.create(model="text-embedding-3-large", input=user_q).data[0].embedding
         q_vec = np.array(q_emb, dtype=np.float32).reshape(1, -1)
